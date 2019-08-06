@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Пётр Никитин](https://up.htmlacademy.ru/ecmascript/9/user/41225).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Тараканов](https://htmlacademy.ru/profile/id487569).
 
 ---
 
