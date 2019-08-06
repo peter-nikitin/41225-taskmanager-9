@@ -1,5 +1,6 @@
-const MenuLayout = () => (
-`<section class="control__btn-wrap">
+"use strict";
+const MenuLayout = () =>
+  `<section class="control__btn-wrap">
 <input
   type="radio"
   name="control"
@@ -26,10 +27,9 @@ const MenuLayout = () => (
 <label for="control__statistic" class="control__label"
   >STATISTICS</label
 >
-</section>`
-);
+</section>`;
 
-const SearchLayout = () => (
+const SearchLayout = () =>
   `<section class="main__search search container">
   <input
     type="text"
@@ -38,9 +38,8 @@ const SearchLayout = () => (
     placeholder="START TYPING — SEARCH BY WORD, #HASHTAG OR DATE"
   />
   <label class="visually-hidden" for="search__input">Search</label>
-</section>`
-);
-const FiltersLayout = () => (
+</section>`;
+const FiltersLayout = () =>
   `<section class="main__filter filter container">
   <input
     type="radio"
@@ -108,10 +107,9 @@ const FiltersLayout = () => (
   <label for="filter__archive" class="filter__label"
     >Archive <span class="filter__archive-count">115</span></label
   >
-</section>`
-);
+</section>`;
 
-const CardsLayout = () => (
+const CardsLayout = () =>
   `  <article class="card card--black">
   <div class="card__form">
     <div class="card__inner">
@@ -176,10 +174,9 @@ const CardsLayout = () => (
       </div>
     </div>
   </div>
-</article>`
-);
+</article>`;
 
-const AddTaskFormLayout = () => (
+const AddTaskFormLayout = () =>
   `  <article class="card card--edit card--black">
   <form class="card__form" method="">
     <div class="card__inner">
@@ -401,17 +398,14 @@ const AddTaskFormLayout = () => (
     </div>
   </form>
 </article>
-`
-);
+`;
 
-const LoadMoreBtn = () => (
-  `<button class="load-more" type="button">load more</button>`
-);
-
+const LoadMoreBtn = () =>
+  `<button class="load-more" type="button">load more</button>`;
 
 const renderElement = (element, layout) => {
   element.innerHTML += layout();
-}
+};
 
 const menu = document.querySelector(`.main__control`);
 const main = document.querySelector(`.main`);
@@ -437,4 +431,3 @@ renderElement(boardTasks, CardsLayout);
 board.appendChild(boardTasks);
 renderElement(board, LoadMoreBtn);
 main.appendChild(board);
-
