@@ -1,10 +1,10 @@
-"use strict";
- import menuLayout from './layouts/menu.js'
- import searchLayout from './layouts/search.js'
- import filtersLayout from './layouts/filters.js'
- import cardLayout from './layouts/card.js'
- import addCardLayout from './layouts/addCard.js'
- import loadMoreBtnLayout from './layouts/loadMoreBtn.js'
+
+import {menuLayout} from './components/menu.js';
+import {searchLayout} from './components/search.js';
+import {filtersLayout} from './components/filters.js';
+import {cardLayout} from './components/card.js';
+import {addCardLayout} from './components/addCard.js';
+import {loadMoreBtnLayout} from './components/loadMoreBtn.js';
 
 const renderElement = (element, layout) => {
   element.innerHTML += layout();

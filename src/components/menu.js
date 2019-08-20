@@ -1,4 +1,4 @@
-const menuLayout = () =>
+export const menuLayout = () =>
   `<section class="control__btn-wrap">
 <input
   type="radio"
@@ -28,4 +28,3 @@ const menuLayout = () =>
 >
 </section>`;
 
-export default menuLayout;
