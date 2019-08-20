@@ -1,4 +1,4 @@
-const searchLayout = () =>
+export const searchLayout = () =>
   `<section class="main__search search container">
   <input
     type="text"
@@ -9,4 +9,3 @@ const searchLayout = () =>
   <label class="visually-hidden" for="search__input">Search</label>
 </section>`;
 
-export default searchLayout;

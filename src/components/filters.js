@@ -1,4 +1,4 @@
-const filtersLayout = () =>
+export const filtersLayout = () =>
   `<section class="main__filter filter container">
   <input
     type="radio"
@@ -68,4 +68,3 @@ const filtersLayout = () =>
   >
 </section>`;
 
-export default filtersLayout;

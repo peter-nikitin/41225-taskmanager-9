@@ -1,4 +1,4 @@
-const addCardLayout = () =>
+export const addCardLayout = () =>
   `  <article class="card card--edit card--black">
   <form class="card__form" method="">
     <div class="card__inner">
@@ -222,4 +222,3 @@ const addCardLayout = () =>
 </article>
 `;
 
-export default addCardLayout;
