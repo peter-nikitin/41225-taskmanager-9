@@ -32,8 +32,6 @@ board.innerHTML += ` <div class="board__filter-list">
 <a href="#" class="board__filter">SORT BY DATE down</a>
 </div>`;
 
-const tasks = new Array(TASK_COUNT).fill(``).map(() => task());
-
 renderElement(boardTasks, addCardLayout);
 tasks.forEach((task) => renderElement(boardTasks, cardLayout, task))
 board.appendChild(boardTasks);
