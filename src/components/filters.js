@@ -5,7 +5,7 @@ export const filtersLayout = (filters) =>
       id="filter__${String(filter).toLowerCase()}"
       class="filter__input visually-hidden"
       name="filter"
-      ${filters[filter] > 0 ? ``: `disabled`}
+      ${filters[filter] > 0 ? `` : `disabled`}
       />
       <label for="filter__all" class="filter__label">
       ${filter} <span class="filter__all-count">${filters[filter]}</span>
