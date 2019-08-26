@@ -31,8 +31,8 @@ export const getTask = () => ({
   isArchive: Boolean(Math.round(Math.random())),
 });
 export const getFilter = (tasks) => ({
-  All: tasks.length,
-  Overdue: tasks.filter((task) => task.dueDate < Date.now()).length,
+  All: (tasks.length - tasks.filter((task) => task.isArchive).length),
+  Overdue: (tasks.filter((task) => task.dueDate < Date.now()).length),
   Today: tasks.filter((task) => task.dueDate === Date.now()).length,
   Favorites: tasks.filter((task) => task.isFavorite).length,
   Archive: tasks.filter((task) => task.isArchive).length,
