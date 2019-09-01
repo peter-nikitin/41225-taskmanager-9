@@ -76,4 +76,4 @@ export default class Card {
     // console.log(this.getTemplate());
     return this._elem;
   }
-};
+}
