@@ -9,5 +9,5 @@ export const filtersLayout = (filters) =>
       />
       <label for="filter__all" class="filter__label">
       ${filter} <span class="filter__all-count">${filters[filter]}</span>
-      </label>`)}
+      </label>`).join(``)}
     </section>`.trim();
