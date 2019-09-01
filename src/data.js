@@ -1,3 +1,11 @@
+export const colors = [
+  `black`,
+  `yellow`,
+  `blue`,
+  `green`,
+  `pink`,
+];
+
 export const getTask = () => ({
   description: [
     `Изучить теорию`,
@@ -20,13 +28,7 @@ export const getTask = () => ({
     `myself`,
     `cinema`,
   ]),
-  color: [
-    `black`,
-    `yellow`,
-    `blue`,
-    `green`,
-    `pink`,
-  ][Math.floor(Math.random() * 5)],
+  color: colors[Math.floor(Math.random() * 5)],
   isFavorite: Boolean(Math.round(Math.random())),
   isArchive: Boolean(Math.round(Math.random())),
 });
