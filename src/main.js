@@ -77,4 +77,17 @@ const renderTasks = (tasksData) => {
   render(cardsContainer, card.getElement(), Positioning.BEFOREEND);
 };
 
-taskMock.forEach((task) => renderTasks(task));
+const activeCards = taskMock.filter((task) => !task.isArchive);
+
+if (activeCards.length > 0) {
+  taskMock.forEach((task) => renderTasks(task));
+} else {
+  document.querySelector(`.board`).innerHTML = `<section class="board container">
+  <p class="board__no-tasks">
+    Congratulations, all tasks were completed! To create a new click on
+    «add new task» button.
+  </p>
+</section>`;
+}
+
+
