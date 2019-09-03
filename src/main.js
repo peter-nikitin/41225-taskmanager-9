@@ -1,11 +1,9 @@
 import {menuLayout} from './components/menu.js';
 import {searchLayout} from './components/search.js';
 import {filtersLayout} from './components/filters.js';
-import Card from './components/card.js';
-import CardEdit from './components/card-edit.js';
 import {loadMoreBtnLayout} from './components/loadMoreBtn.js';
 import {getFilter, getTask} from './data.js';
-import {render, Positioning} from './utils';
+import BoardController from './components/boardController';
 
 const renderElement = (element, layout, data) => {
   element.innerHTML += layout(data);
@@ -38,56 +36,7 @@ main.appendChild(board);
 
 const cardsContainer = document.querySelector(`.board__tasks`);
 
-const renderTasks = (tasksData) => {
-  const card = new Card(tasksData);
-  const cardEdit = new CardEdit(tasksData);
+const boardController = new BoardController(cardsContainer, taskMock);
 
-  const removeEditOnESC = (evt) => {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
-      cardsContainer.replaceChild(card.getElement(), cardEdit.getElement());
-      document.removeEventListener(`keydown`, removeEditOnESC);
-    }
-  };
-
-  card.getElement()
-    .querySelector(`.card__btn`)
-    .addEventListener(`click`, () => {
-      cardsContainer.replaceChild(cardEdit.getElement(), card.getElement());
-      document.addEventListener(`keydown`, removeEditOnESC);
-    });
-
-  cardEdit.getElement()
-    .querySelector(`.card__save`)
-    .addEventListener(`click`, () => {
-      cardsContainer.replaceChild(card.getElement(), cardEdit.getElement());
-      document.removeEventListener(`keydown`, removeEditOnESC);
-    });
-
-  cardEdit.getElement()
-    .querySelector(`textarea`)
-    .addEventListener(`focus`, () => {
-      document.removeEventListener(`keydown`, removeEditOnESC);
-    });
-  cardEdit.getElement()
-    .querySelector(`textarea`)
-    .addEventListener(`blur`, () => {
-      document.addEventListener(`keydown`, removeEditOnESC);
-    });
-
-  render(cardsContainer, card.getElement(), Positioning.BEFOREEND);
-};
-
-const activeCards = taskMock.filter((task) => !task.isArchive);
-
-if (activeCards.length > 0) {
-  taskMock.forEach((task) => renderTasks(task));
-} else {
-  document.querySelector(`.board`).innerHTML = `<section class="board container">
-  <p class="board__no-tasks">
-    Congratulations, all tasks were completed! To create a new click on
-    «add new task» button.
-  </p>
-</section>`;
-}
-
+boardController.init();
 
