@@ -1,4 +1,3 @@
-import AbstractComponent from "./abstractClass";
 import Card from "./card.js";
 import CardEdit from "./card-edit.js";
 import {render, Positioning, unRender} from "../utils";
