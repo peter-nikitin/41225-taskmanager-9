@@ -1,28 +1,20 @@
-import {createElement} from '../utils';
 import {colors} from '../data';
+import AbstractComponent from './abstractClass';
 
-export default class CardEdit {
+export default class CardEdit extends AbstractComponent {
   constructor({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._repeatingDays = repeatingDays;
     this._tags = tags;
     this._color = color;
-    this._elem = null;
     this._isFavorite = isFavorite;
     this._isArchive = isArchive;
   }
 
-  getElement() {
-    if (!this._elem) {
-      this._elem = createElement(this.getTemplate());
-    }
-    return this._elem;
-  }
-
   getTemplate() {
     return `
-
 <article class="card card--edit card--${this._color}
 ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``}
 ">
