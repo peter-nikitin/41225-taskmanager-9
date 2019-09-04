@@ -1,13 +1,13 @@
-import {createElement} from '../utils';
+import AbstractComponent from './abstractClass';
 
-export default class Card {
+export default class Card extends AbstractComponent {
   constructor({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) {
+    super();
     this._description = description;
     this._dueDate = new Date(dueDate);
     this._repeatingDays = repeatingDays;
     this._tags = tags;
     this._color = color;
-    this._elem = null;
     this._isFavorite = isFavorite;
     this._isArchive = isArchive;
   }
@@ -67,13 +67,5 @@ export default class Card {
         </div>
       </div>
     </article>`;
-  }
-
-  getElement() {
-    if (!this._elem) {
-      this._elem = createElement(this.getTemplate());
-    }
-    // console.log(this.getTemplate());
-    return this._elem;
   }
 }
