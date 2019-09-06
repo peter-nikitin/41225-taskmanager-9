@@ -1,7 +1,6 @@
 import {menuLayout} from './components/menu.js';
 import {searchLayout} from './components/search.js';
 import {filtersLayout} from './components/filters.js';
-import {loadMoreBtnLayout} from './components/loadMoreBtn.js';
 import {getFilter, getTask} from './data.js';
 import BoardController from './components/boardController';
 
@@ -25,16 +24,11 @@ board.classList.add(`board`);
 board.classList.add(`container`);
 const boardTasks = document.createElement(`div`);
 boardTasks.classList.add(`board__tasks`);
-board.innerHTML += ` <div class="board__filter-list">
-<a href="#" class="board__filter">SORT BY DEFAULT</a>
-<a href="#" class="board__filter">SORT BY DATE up</a>
-<a href="#" class="board__filter">SORT BY DATE down</a>
-</div>`;
-board.append(boardTasks);
-renderElement(board, loadMoreBtnLayout);
+
+// board.append(boardTasks);
 main.appendChild(board);
 
-const cardsContainer = document.querySelector(`.board__tasks`);
+const cardsContainer = document.querySelector(`.board`);
 
 const boardController = new BoardController(cardsContainer, taskMock);
 
