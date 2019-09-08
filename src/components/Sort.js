@@ -1,9 +1,5 @@
 import AbstractComponent from './abstractClass';
 export default class Sort extends AbstractComponent {
-  constructor() {
-    super();
-  }
-
   getTemplate() {
     return `<div class="board__filter-list">
     <a href="#" class="board__filter" data-sort="default">SORT BY DEFAULT</a>
