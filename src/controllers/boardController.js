@@ -1,5 +1,3 @@
-import Card from "../components/card.js";
-import CardEdit from "../components/card-edit.js";
 import Board from "../components/board.js";
 import NoCards from "../components/noCards.js";
 import Sort from "../components/Sort.js";
