@@ -11,13 +11,13 @@ export default class CardEdit extends AbstractComponent {
     this._color = color;
     this._isFavorite = isFavorite;
     this._isArchive = isArchive;
+    this._addTage();
+    this._removeTag();
   }
 
   getTemplate() {
     return `
-<article class="card card--edit card--${this._color}
-${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``}
-">
+<article class="card card--edit card--${this._color} ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `card--repeat` : ``} ">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -158,4 +158,36 @@ ${Object.keys(this._repeatingDays).some((day) => this._repeatingDays[day]) ? `ca
     `;
   }
 
+  _addTage() {
+    this.getElement().querySelector(`.card__hashtag-input`)
+      .addEventListener(`keydown`, (evt) => {
+        if (evt.key === `Enter`) {
+          evt.preventDefault();
+          const tagsWrapper = this.getElement().querySelector(`.card__hashtag-list`);
+          const taglayout = `<span class="card__hashtag-inner">
+          <input
+            type="hidden"
+            name="hashtag"
+            value="${evt.target.value}"
+            class="card__hashtag-hidden-input"
+          />
+          <p class="card__hashtag-name">
+            #${evt.target.value}
+          </p>
+          <button type="button" class="card__hashtag-delete">
+            delete
+          </button>
+        </span>`;
+          tagsWrapper.insertAdjacentHTML(`beforeend`, taglayout);
+          this.getElement().querySelector(`.card__hashtag-input`).value = ``;
+        }
+      });
+  }
+  _removeTag() {
+    this.getElement().querySelectorAll(`.card__hashtag-delete`).forEach((hastag) => {
+      hastag.addEventListener(`click`, (evt) => {
+        evt.target.closest(`.card__hashtag-inner`).remove();
+      });
+    });
+  }
 }
