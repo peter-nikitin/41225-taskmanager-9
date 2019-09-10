@@ -1,5 +1,8 @@
 import {colors} from '../data';
 import AbstractComponent from './abstractClass';
+import '../../node_modules/flatpickr/dist/flatpickr.css';
+import flatpickr from 'flatpickr';
+import moment from 'moment';
 
 export default class CardEdit extends AbstractComponent {
   constructor({description, dueDate, repeatingDays, tags, color, isFavorite, isArchive}) {
@@ -13,6 +16,7 @@ export default class CardEdit extends AbstractComponent {
     this._isArchive = isArchive;
     this._addTage();
     this._removeTag();
+    this._initFlapicker();
   }
 
   getTemplate() {
@@ -62,7 +66,7 @@ export default class CardEdit extends AbstractComponent {
                   type="text"
                   placeholder=""
                   name="date"
-                  value="${this._dueDate.toDateString()}"
+                  value="${moment(this._dueDate).format(`MMMM DD`)}"
                 />
               </label>
             </fieldset>
@@ -190,4 +194,16 @@ export default class CardEdit extends AbstractComponent {
       });
     });
   }
+
+  _initFlapicker() {
+    const dueDate = this.getElement().querySelector(`.card__date`);
+    flatpickr(dueDate, {
+      altFormat: `F j`,
+      dateFormat: `F j`,
+    });
+    dueDate.addEventListener(`blur`, () => {
+      dueDate.value = moment(dueDate.value).format(`MMMM DD`);
+    });
+  }
+
 }
