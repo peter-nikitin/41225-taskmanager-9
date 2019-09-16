@@ -1,9 +1,9 @@
 import Card from "../components/card.js";
 import CardEdit from "../components/card-edit.js";
-import {render, Positioning, unRender} from "../utils";
+import {render, Positioning, unRender, Mode} from "../utils";
 
 export default class CardContainer {
-  constructor(container, data, onDataChange, onViewChange) {
+  constructor(container, data, mode, onDataChange, onViewChange) {
     this._container = container.getElement();
     this._data = data;
     this._card = new Card(data);
@@ -11,11 +11,18 @@ export default class CardContainer {
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
     this._newData = {...this._data};
-
-    this.create();
+    this.create(mode);
   }
 
-  create() {
+  create(mode) {
+
+    let renderPosition = Positioning.BEFOREEND;
+    let currentView = this._card;
+    if (mode === Mode.ADDING) {
+      renderPosition = Positioning.AFTERBEGIN;
+      currentView = this._cardEdit;
+    }
+
     const removeEditOnESC = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
         this._container.replaceChild(this._card.getElement(), this._this._cardEdit.getElement());
@@ -26,8 +33,12 @@ export default class CardContainer {
     this._card.getElement()
       .querySelector(`.card__btn--edit`)
       .addEventListener(`click`, () => {
-        this._onViewChange();
-        this._container.replaceChild(this._cardEdit.getElement(), this._card.getElement());
+        if (mode === Mode.DEFAULT) {
+          this._onViewChange();
+          this._container.replaceChild(this._cardEdit.getElement(), this._card.getElement());
+        } else if (mode === Mode.ADDING) {
+          this._container.removeChilde(currentView.getElement());
+        }
         document.addEventListener(`keydown`, removeEditOnESC);
       });
 
@@ -67,9 +78,9 @@ export default class CardContainer {
     this._cardEdit.getElement()
       .querySelector(`.card__delete`)
       .addEventListener(`click`, () => {
-        unRender(this._cardEdit.getElement());
-        this._cardEdit.removeElement();
         document.removeEventListener(`keydown`, removeEditOnESC);
+
+        this._onDataChange(null, this._data);
       });
 
     this._cardEdit.getElement()
@@ -141,7 +152,7 @@ export default class CardContainer {
         // document.addEventListener(`keydown`, (evt) => this._addTage(evt));
       });
 
-    render(this._container, this._card.getElement(), Positioning.BEFOREEND);
+    render(this._container, currentView.getElement(), renderPosition);
   }
 
   _toggelDateField() {
