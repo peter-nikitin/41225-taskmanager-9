@@ -2,6 +2,10 @@ export const Positioning = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };
+export const Mode = {
+  ADDING: `adding`,
+  DEFAULT: `default`,
+};
 
 export const createElement = (template) => {
   const newElem = document.createElement(`div`);
