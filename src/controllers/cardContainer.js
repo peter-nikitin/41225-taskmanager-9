@@ -38,6 +38,7 @@ export default class CardContainer {
           this._container.replaceChild(this._cardEdit.getElement(), this._card.getElement());
         } else if (mode === Mode.ADDING) {
           this._container.removeChilde(currentView.getElement());
+          this._onDataChange(null, null);
         }
         document.addEventListener(`keydown`, removeEditOnESC);
       });
@@ -128,8 +129,11 @@ export default class CardContainer {
           tags: new Set(formData.getAll(`hashtag`)),
           color: formData.get(`color`)
         };
-
-        this._onDataChange(newState, this._data);
+        if (mode === Mode.ADDING) {
+          this._onDataChange(newState, null);
+        } else if (mode === Mode.DEFAULT) {
+          this._onDataChange(newState, this._data);
+        }
 
         this._container.replaceChild(this._card.getElement(), this._cardEdit.getElement());
         document.removeEventListener(`keydown`, removeEditOnESC);

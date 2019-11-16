@@ -7,6 +7,8 @@ export const Mode = {
   DEFAULT: `default`,
 };
 
+export const CARDS_IN_ROW = 4;
+
 export const createElement = (template) => {
   const newElem = document.createElement(`div`);
   newElem.innerHTML = template;

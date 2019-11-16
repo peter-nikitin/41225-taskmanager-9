@@ -3,12 +3,8 @@ import NoCards from "../components/noCards.js";
 import Sort from "../components/Sort.js";
 import LoadMore from "../components/loadMoreBtn";
 import TaskBoard from "../components/taskBoard";
-import {render, Positioning, unRender, Mode} from "../utils";
+import {render, Positioning, unRender, Mode, CARDS_IN_ROW} from "../utils";
 import CardController from './cardContainer';
-import Statistic from '../components/statistic';
-import Menu from '../components/menu';
-import Filters from '../components/filters';
-import Search from '../components/search';
 
 export default class BoardController {
   constructor(container, tasks) {
@@ -19,27 +15,50 @@ export default class BoardController {
     this._noCards = new NoCards();
     this._sort = new Sort();
     this._loadMore = new LoadMore();
-    this._statistic = new Statistic();
-    this._menu = new Menu();
-    this._search = new Search();
-    this._filters = new Filters(this._tasks);
+
+    this._showerCards = CARDS_IN_ROW;
 
     this._creatingTask = null;
 
     this.subscriptions = [];
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
-    this._showStat();
+    // this._showStat();
   }
 
   init() {
-    render(this._container.querySelector(`.main__control`), this._menu.getElement(), Positioning.BEFOREEND);
-    render(this._container, this._search.getElement(), Positioning.BEFOREEND);
-    render(this._container, this._filters.getElement(), Positioning.BEFOREEND);
     render(this._container, this._sort.getElement(), Positioning.AFTERBEGIN);
+    render(this._container, this._taskBoard.getElement(), Positioning.AFTERBEGIN);
+    
     this._renderBoard(this._tasks);
+
     this._sort.getElement()
     .addEventListener(`click`, (evt) => this._sortOnClick(evt));
+  }
+
+  hide() {
+    this._board.getElement().classList.add(`visually-hidden`);
+  }
+  show() {
+    this._board.getElement().classList.remove(`visually-hidden`);
+  }
+
+  createTask() {
+    if (this._creatingTask) {
+      return;
+    }
+
+    const defaultCard = {
+      description: ``,
+      dueDate: new Date(),
+      tags: new Set(),
+      color: [],
+      repeatingDays: {},
+      isFavorite: false,
+      isArchive: false,
+    };
+
+    this._creatingTask = new CardController(this._taskBoard, defaultCard, Mode.ADDING, this._onDataChange, this._onViewChange);
   }
 
   _renderTask(task) {
@@ -47,22 +66,21 @@ export default class BoardController {
     this.subscriptions.push(cardController.setDefaultView.bind(cardController));
   }
 
-  _renderBoard(tasks) {
+  _renderBoard() {
     unRender(this._taskBoard.getElement());
     this._taskBoard.removeElement();
 
     render(this._board.getElement(), this._sort.getElement(), Positioning.BEFOREEND);
     render(this._board.getElement(), this._taskBoard.getElement(), Positioning.BEFOREEND);
-
-    if (tasks.length > 0) {
-      tasks.forEach((task) => this._renderTask(task));
+    if (this._tasks.length > 0) {
+      this._tasks.slice(0, this._showerCards).forEach((task) => this._renderTask(task));
     } else {
       this._board.getElement.querySelector(`.board`).innerHTML = this._noCards.getElement();
     }
 
     render(this._container, this._board.getElement(), Positioning.BEFOREEND);
     render(this._taskBoard.getElement(), this._loadMore.getElement(), Positioning.BEFOREEND);
-
+    this._onClickLoadMore();
   }
 
   _onDataChange(newData, oldData) {
@@ -71,6 +89,10 @@ export default class BoardController {
     }
     if (oldData === null) {
       this._tasks.unshift(newData);
+      this._creatingTask = null;
+    }
+    if (oldData === null && newData === null) {
+      this._creatingTask = null;
     }
     this._tasks[this._tasks.findIndex((element) => element === oldData)] = newData;
     this._renderBoard(this._tasks);
@@ -98,42 +120,20 @@ export default class BoardController {
     }
   }
 
-  createTask() {
-    const defaultCard = {
-      description: ``,
-      dueDate: new Date(),
-      tags: new Set(),
-      color: [],
-      repeatingDays: {},
-      isFavorite: false,
-      isArchive: false,
-    };
+  _onClickLoadMore() {
+    this._loadMore.getElement().addEventListener(`click`, () => {
+      unRender(this._loadMore.getElement());
+      this._tasks.slice(this._showerCards, this._showerCards + CARDS_IN_ROW).forEach((task) => this._renderTask(task));
 
-    this._creatingTask = new CardController(this._taskBoard, defaultCard, Mode.ADDING, this._onDataChange, this._onViewChange);
-    console.log(this._creatingTask)
+      this._showerCards += CARDS_IN_ROW;
+      console.log(this._showerCards)
+      if ( this._tasks.length >= this._showerCards) {
+
+        render(this._taskBoard.getElement(), this._loadMore.getElement(), Positioning.BEFOREEND);
+      }
+
+    })
   }
 
-  _showStat() {
-    const menu = this._menu.getElement().querySelectorAll(`.control__input`);
-    menu.forEach((item) => {
-      item.addEventListener(`change`, (evt) => {
-        const target = evt.target;
-        switch (target.id) {
-          case `control__statistic`:
-            unRender(this._taskBoard.getElement());
-            render(this._container, this._statistic.getElement(), Positioning.BEFOREEND);
-            break;
-          case `control__task`:
-            unRender(this._statistic.getElement());
-            this._renderBoard(this._tasks);
-            break;
-          case `control__new-task`:
-            this.createTask();
 
-            this._renderBoard(this._tasks);
-            break;
-        }
-      });
-    });
-  }
 }

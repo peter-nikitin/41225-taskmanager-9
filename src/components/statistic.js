@@ -1,5 +1,7 @@
 import AbstractComponent from './abstractClass';
 export default class Statistic extends AbstractComponent {
+
+
   getTemplate() {
     return `<section class="statistic container">
   <div class="statistic__line">
@@ -32,6 +34,6 @@ export default class Statistic extends AbstractComponent {
       <canvas class="statistic__colors" width="400" height="300"></canvas>
     </div>
   </div>
-</section>`
+</section>`;
   }
 }
