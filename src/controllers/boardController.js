@@ -79,7 +79,9 @@ export default class BoardController {
     }
 
     render(this._container, this._board.getElement(), Positioning.BEFOREEND);
-    render(this._taskBoard.getElement(), this._loadMore.getElement(), Positioning.BEFOREEND);
+    if ( this._tasks.length >= this._showerCards) {
+      render(this._taskBoard.getElement(), this._loadMore.getElement(), Positioning.BEFOREEND);
+    }
     this._onClickLoadMore();
   }
 
@@ -128,7 +130,6 @@ export default class BoardController {
       this._showerCards += CARDS_IN_ROW;
       console.log(this._showerCards)
       if ( this._tasks.length >= this._showerCards) {
-
         render(this._taskBoard.getElement(), this._loadMore.getElement(), Positioning.BEFOREEND);
       }
 
